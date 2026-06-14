@@ -30,31 +30,6 @@ For travel, the value is immediate capture: launching automations on the spot, s
 
 Moving from writing to voice is powerful, but it takes a little practice. This shortcut is my way to make that shift feel natural.
 
-## Visual Gallery
-
-More reference images for the Siri, Apple Watch, RePod-style carry, and shortcut setup.
-
-<p>
-  <img src="assets/hermes-on-the-go-02.jpg" alt="Apple Watch in a RePod-style case" width="320">
-  <img src="assets/hermes-on-the-go-05.jpg" alt="Apple Watch RePod carry setup" width="320">
-</p>
-
-<p>
-  <img src="assets/hermes-on-the-go-01.jpg" alt="Siri shortcut reference on Apple Watch" width="640">
-</p>
-
-<p>
-  <img src="assets/hermes-on-the-go-03.jpg" alt="Hermes on Apple Watch shortcut step" width="640">
-</p>
-
-<p>
-  <img src="assets/hermes-on-the-go-04.jpg" alt="Apple Watch shortcut configuration" width="640">
-</p>
-
-<p>
-  <img src="assets/hermes-on-the-go-06.jpg" alt="Hermes on the go Apple Watch flow" width="640">
-</p>
-
 ## What You Need
 
 - Apple Watch paired with an iPhone
@@ -71,6 +46,7 @@ The shortcut does this:
 3. The shortcut sends the request to Hermes with `Get Contents of URL`.
 4. Hermes returns a text answer.
 5. Apple Watch speaks or displays the answer.
+6. A repeat loop asks whether you want to continue or stop.
 
 ## Step 1: Prepare Your Hermes Endpoint
 
@@ -120,6 +96,10 @@ Add the first action:
 
 This is the message Siri will send to Hermes.
 
+<p>
+  <img src="assets/hermes-on-the-go-01.jpg" alt="Dictate Text action configured in Apple Shortcuts" width="640">
+</p>
+
 ## Step 4: Build the JSON Body
 
 Add a **Text** action after **Dictate Text**.
@@ -152,6 +132,10 @@ Configure it like this:
 
 If your endpoint does not use authentication, remove the `Authorization` header.
 
+<p>
+  <img src="assets/hermes-on-the-go-02.jpg" alt="Get Contents of URL POST action configured in Apple Shortcuts" width="320">
+</p>
+
 ## Step 6: Extract the Reply
 
 Add **Get Dictionary from Input**.
@@ -162,6 +146,10 @@ Then add **Get Dictionary Value**:
 - **Dictionary:** the response from **Get Contents of URL**
 
 This pulls the Hermes answer out of the JSON response.
+
+<p>
+  <img src="assets/hermes-on-the-go-03.jpg" alt="Get Dictionary Value action extracting the reply field" width="640">
+</p>
 
 ## Step 7: Speak the Answer on Apple Watch
 
@@ -177,21 +165,67 @@ Recommended settings:
 
 Optional: add **Show Result** after **Speak Text** if you also want the answer displayed on the watch screen.
 
-## Step 8: Enable Apple Watch
+<p>
+  <img src="assets/hermes-on-the-go-04.jpg" alt="Speak Text action reading the Hermes reply" width="640">
+</p>
+
+## Step 8: Add the Continue Loop
+
+Wrap the main actions in a **Repeat** flow so Siri can keep the conversation going.
+
+After Hermes speaks the answer:
+
+1. Add **Choose from Menu**.
+2. Set the prompt to **Continue?**.
+3. Add two menu options:
+   - **Continue**
+   - **Stop**
+4. Under **Continue**, loop back to the next dictated prompt.
+5. Under **Stop**, add **Stop and Output**.
+6. End the menu and repeat block.
+
+<p>
+  <img src="assets/hermes-on-the-go-05.jpg" alt="Choose from Menu action asking whether to continue or stop" width="320">
+</p>
+
+<p>
+  <img src="assets/hermes-on-the-go-06.jpg" alt="End Menu and End Repeat actions in Apple Shortcuts" width="640">
+</p>
+
+## Step 9: Test on iPhone First
+
+Before sending the shortcut to Apple Watch, run it directly on the iPhone.
+
+1. Tap the shortcut from the Shortcuts app.
+2. Dictate a short test prompt.
+3. Confirm the API `POST` reaches Hermes.
+4. Confirm Hermes returns a valid `reply`.
+5. Confirm the iPhone speaks the answer correctly.
+6. Confirm the continue/stop loop behaves correctly.
+
+Only move to Apple Watch once the iPhone version works reliably. Debugging the shortcut is much easier on the phone.
+
+## Step 10: Enable Apple Watch
 
 On iPhone:
 
-1. Open the shortcut settings.
-2. Enable **Show on Apple Watch**.
-3. Enable **Use with Siri** if available.
-4. Confirm the shortcut appears in the Apple Watch Shortcuts app.
+1. Open **Shortcuts**.
+2. Find the Hermes shortcut.
+3. Tap the **...** button to edit it.
+4. Tap the **i** info button.
+5. Enable **Show on Apple Watch**.
+6. Enable **Use with Siri** if available.
+7. Open the **Shortcuts** app on Apple Watch.
+8. Confirm the Hermes shortcut appears there before relying on Siri.
 
-## Step 9: Run It With Siri
+If it does not appear on the watch, wait for iCloud sync, keep both devices nearby, and check the **Show on Apple Watch** toggle again from the shortcut info screen.
+
+## Step 11: Run It With Siri
 
 On Apple Watch, say:
 
 ```text
-Hey Siri, Hermes On The Go
+Siri, Hermes
 ```
 
 Then dictate your request.
