@@ -1,14 +1,20 @@
 # Siri Watch RePod: Hermes On The Go
 
-Run Hermes from Siri on an Apple Watch, especially when the watch is worn or carried in a RePod-style case.
+<p>
+  <img src="assets/hermes-on-the-go-hero.jpg" alt="Apple Watch carried in an orange RePod-style case" width="520">
+</p>
 
-This repo is intentionally simple: it is a step-by-step Apple Shortcuts recipe for sending a spoken request from Apple Watch Siri to a Hermes endpoint, then reading the answer back on the watch.
+Turn an Apple Watch in a RePod-style carry case into a tiny Siri gateway for Hermes.
+
+This repo documents a lightweight Apple Shortcuts flow: speak to Siri on the watch, send the dictated request to a Hermes endpoint, then hear or read the answer back without pulling out a phone or laptop.
+
+The goal is simple: Hermes, on the go.
 
 > Not affiliated with Apple, Siri, Apple Watch, Hermes, Hermes Paris, or RePod. Product names are used only to describe the workflow.
 
-## Visual Reference
+## Visual Gallery
 
-The setup: Siri, Apple Watch, RePod-style carry, and Hermes on the go.
+More reference images for the Siri, Apple Watch, RePod-style carry, and shortcut setup.
 
 <p>
   <img src="assets/hermes-on-the-go-02.jpg" alt="Apple Watch in a RePod-style case" width="320">
