@@ -12,6 +12,24 @@ The goal is simple: Hermes, on the go.
 
 > Not affiliated with Apple, Siri, Apple Watch, Hermes, Hermes Paris, or RePod. Product names are used only to describe the workflow.
 
+## Field Note
+
+I now use this setup as a voice-first interface to Hermes through Siri, and it works surprisingly well. It also runs directly from the iPhone.
+
+The iOS Shortcut connects to my Hermes + Obsidian stack with a dedicated API `POST` request, giving me agentic behavior and memory from my wrist. I added a repeat loop so Siri asks after every answer whether I want to continue or stop.
+
+To launch it, I tap the automation like an app or simply say:
+
+```text
+Siri, Hermes
+```
+
+Siri asks for my first prompt, Hermes answers out loud, and the conversation can continue hands-free. In my setup, the spoken answer uses the Thomas voice.
+
+For travel, the value is immediate capture: launching automations on the spot, starting a project, saving an idea, or noting something exactly when it appears. I press the Digital Crown on the watch in the case, speak, and Hermes captures it.
+
+Moving from writing to voice is powerful, but it takes a little practice. This shortcut is my way to make that shift feel natural.
+
 ## Visual Gallery
 
 More reference images for the Siri, Apple Watch, RePod-style carry, and shortcut setup.
