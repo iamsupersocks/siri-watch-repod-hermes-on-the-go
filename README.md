@@ -41,12 +41,14 @@ Moving from writing to voice is powerful, but it takes a little practice. This s
 
 The shortcut does this:
 
-1. Siri listens on Apple Watch.
-2. The shortcut captures your dictated request.
-3. The shortcut sends the request to Hermes with `Get Contents of URL`.
-4. Hermes returns a text answer.
-5. Apple Watch speaks or displays the answer.
-6. A repeat loop asks whether you want to continue or stop.
+1. Starts a **Repeat 5 Times** loop.
+2. Captures your prompt with **Dictate Text**.
+3. Sends the dictated text to Hermes with **Get Contents of URL**.
+4. Extracts the `reply` field with **Get Value for Dictionary**.
+5. Speaks the reply out loud.
+6. Opens a **Continue?** menu.
+7. Continues to the next loop turn or stops with **Stop and Output**.
+8. Ends the menu, then ends the repeat block.
 
 ## Step 1: Prepare Your Hermes Endpoint
 
@@ -62,7 +64,7 @@ Expected request body:
 
 ```json
 {
-  "message": "Your dictated request from Siri"
+  "text": "Your dictated request from Siri"
 }
 ```
 
@@ -85,40 +87,35 @@ On your iPhone:
 3. Name it **Hermes On The Go**.
 4. Tap the shortcut icon and choose a simple watch-friendly icon.
 
-## Step 3: Add Dictation
+## Step 3: Add Repeat 5 Times
 
-Add the first action:
+Add the loop first. The whole conversation flow sits inside it.
+
+1. Search for **Repeat**.
+2. Add **Repeat** to the shortcut.
+3. Set it to **Repeat 5 Times**.
+4. Place every action from the next steps inside this repeat block.
+
+This gives the shortcut enough turns for a short voice conversation while still guaranteeing that it eventually stops.
+
+## Step 4: Add Dictation
+
+Inside **Repeat 5 Times**, add the first action:
 
 1. Search for **Dictate Text**.
-2. Add it to the shortcut.
+2. Add it inside the repeat block.
 3. Set **Language** to your preferred language.
 4. Keep **Stop Listening** set to **After Pause**.
 
-This is the message Siri will send to Hermes.
+This dictated text is the prompt Siri sends to Hermes.
 
 <p>
   <img src="assets/hermes-on-the-go-01.jpg" alt="Dictate Text action configured in Apple Shortcuts" width="640">
 </p>
 
-## Step 4: Build the JSON Body
-
-Add a **Text** action after **Dictate Text**.
-
-Paste this:
-
-```json
-{
-  "message": "DICTATED_TEXT"
-}
-```
-
-Then replace `DICTATED_TEXT` with the magic variable from **Dictated Text**.
-
-In Shortcuts, the value should appear as a variable token, not plain typed text.
-
 ## Step 5: Send the Request
 
-Add **Get Contents of URL**.
+After **Dictate Text**, add **Get Contents of URL**.
 
 Configure it like this:
 
@@ -127,8 +124,9 @@ Configure it like this:
 - **Headers:**
   - `Content-Type`: `application/json`
   - `Authorization`: `Bearer YOUR_TOKEN` if your endpoint requires one
-- **Request Body:** `File`
-- **File:** the JSON **Text** action from the previous step
+- **Request Body:** `JSON`
+- **JSON field:** `text`
+- **JSON value:** the **Dictated Text** magic variable
 
 If your endpoint does not use authentication, remove the `Authorization` header.
 
@@ -136,26 +134,24 @@ If your endpoint does not use authentication, remove the `Authorization` header.
   <img src="assets/hermes-on-the-go-02.jpg" alt="Get Contents of URL POST action configured in Apple Shortcuts" width="320">
 </p>
 
-## Step 6: Extract the Reply
+## Step 6: Get the Reply Value
 
-Add **Get Dictionary from Input**.
-
-Then add **Get Dictionary Value**:
+After **Get Contents of URL**, add **Get Value for Dictionary**:
 
 - **Key:** `reply`
-- **Dictionary:** the response from **Get Contents of URL**
+- **Input:** **Contents of URL**
 
-This pulls the Hermes answer out of the JSON response.
+This pulls the `reply` field out of the Hermes JSON response.
 
 <p>
   <img src="assets/hermes-on-the-go-03.jpg" alt="Get Dictionary Value action extracting the reply field" width="640">
 </p>
 
-## Step 7: Speak the Answer on Apple Watch
+## Step 7: Speak the Reply
 
-Add **Speak Text**.
+After **Get Value for Dictionary**, add **Speak Text**.
 
-Set the text to the `reply` value from the previous step.
+Set the text to the dictionary value from the previous step.
 
 Recommended settings:
 
@@ -169,20 +165,20 @@ Optional: add **Show Result** after **Speak Text** if you also want the answer d
   <img src="assets/hermes-on-the-go-04.jpg" alt="Speak Text action reading the Hermes reply" width="640">
 </p>
 
-## Step 8: Add the Continue Loop
+## Step 8: Choose Continue or Stop
 
-Wrap the main actions in a **Repeat** flow so Siri can keep the conversation going.
+After **Speak Text**, add **Choose from Menu**.
 
-After Hermes speaks the answer:
+Configure it like this:
 
-1. Add **Choose from Menu**.
-2. Set the prompt to **Continue?**.
-3. Add two menu options:
+1. Set the menu prompt to **Continue?**.
+2. Add two menu options:
    - **Continue**
-   - **Stop**
-4. Under **Continue**, loop back to the next dictated prompt.
-5. Under **Stop**, add **Stop and Output**.
-6. End the menu and repeat block.
+   - **Arreter** or **Stop**
+3. Under **Continue**, leave the branch empty so the repeat loop continues to the next dictated prompt.
+4. Under **Arreter** / **Stop**, add **Stop and Output**.
+5. After both branches, keep **End Menu**.
+6. After the menu, keep **End Repeat**.
 
 <p>
   <img src="assets/hermes-on-the-go-05.jpg" alt="Choose from Menu action asking whether to continue or stop" width="320">
@@ -255,7 +251,7 @@ If your Hermes endpoint supports modes, add one to the JSON body:
 
 ```json
 {
-  "message": "DICTATED_TEXT",
+  "text": "DICTATED_TEXT",
   "mode": "watch"
 }
 ```
@@ -303,7 +299,7 @@ Authorization: Bearer optional-token
 
 ```json
 {
-  "message": "What should I do next?"
+  "text": "What should I do next?"
 }
 ```
 
