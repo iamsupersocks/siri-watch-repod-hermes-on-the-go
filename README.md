@@ -6,6 +6,31 @@ This repo is intentionally simple: it is a step-by-step Apple Shortcuts recipe f
 
 > Not affiliated with Apple, Siri, Apple Watch, Hermes, Hermes Paris, or RePod. Product names are used only to describe the workflow.
 
+## Visual Reference
+
+The setup: Siri, Apple Watch, RePod-style carry, and Hermes on the go.
+
+<p>
+  <img src="assets/hermes-on-the-go-02.jpg" alt="Apple Watch in a RePod-style case" width="320">
+  <img src="assets/hermes-on-the-go-05.jpg" alt="Apple Watch RePod carry setup" width="320">
+</p>
+
+<p>
+  <img src="assets/hermes-on-the-go-01.jpg" alt="Siri shortcut reference on Apple Watch" width="640">
+</p>
+
+<p>
+  <img src="assets/hermes-on-the-go-03.jpg" alt="Hermes on Apple Watch shortcut step" width="640">
+</p>
+
+<p>
+  <img src="assets/hermes-on-the-go-04.jpg" alt="Apple Watch shortcut configuration" width="640">
+</p>
+
+<p>
+  <img src="assets/hermes-on-the-go-06.jpg" alt="Hermes on the go Apple Watch flow" width="640">
+</p>
+
 ## What You Need
 
 - Apple Watch paired with an iPhone
